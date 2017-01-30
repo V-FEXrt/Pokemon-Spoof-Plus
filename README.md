@@ -1,4 +1,4 @@
-# Pokemon-Spoof-Plus
+# Pokemon Spoof Plus
 Expansion of the Pokemon Spoof project with support for battling and trading
 
 Shout out to the following sites for we(I) stand on the shoulders of giants
