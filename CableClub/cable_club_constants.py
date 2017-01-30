@@ -1,0 +1,44 @@
+from enum import Enum
+
+
+class ConnectionState(Enum):
+    NOT_CONNECTED = 0
+    CONNECTED = 1
+    TRADE_CENTER = 2
+    COLOSSEUM = 3
+
+
+class TradeCenterState(Enum):
+    INIT = 0
+    READY_TO_GO = 1
+    SEEN_FIRST_WAIT = 2
+    SENDING_RANDOM_DATA = 3
+    WAITING_TO_SEND_DATA = 4
+    START_SENDING_DATA = 5
+    SENDING_DATA = 6
+    DATA_SENT = 7
+
+
+class Com():
+    BLANK = 0x00
+    ITEM_1_HIGHLIGHTED = 0xD0
+    ITEM_2_HIGHLIGHTED = 0xD1
+    ITEM_3_HIGHLIGHTED = 0xD2
+    ITEM_1_SELECTED = 0xD4
+    ITEM_2_SELECTED = 0xD5
+    ITEM_3_SELECTED = 0xD6
+
+    MASTER = 0x01
+    SLAVE = 0x02
+    CONNECTED = 0x60
+    WAIT = 0x7F
+
+    ACTION = 0x60
+
+    TRADE_CENTER_SELECTED = ITEM_1_SELECTED
+    COLOSSEUM_SELECTED = ITEM_2_SELECTED
+    BREAK_LINK = ITEM_3_SELECTED
+
+    TRADE_CENTER_WAIT = 0xFD
+
+    WAIT = 0xF0
