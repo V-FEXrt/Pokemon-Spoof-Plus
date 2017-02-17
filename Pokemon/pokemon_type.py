@@ -1,3 +1,5 @@
+import random
+
 class Type():
     def __init__(self, name, hex):
         self.name = name
@@ -13,11 +15,16 @@ class Type():
     @staticmethod
     def buildReverse():
         reverse = {}
-        for member in [attr for attr in dir(Type) if not callable(getattr(Type, attr)) and not attr.startswith("__")]:
+        Type.members = [attr for attr in dir(Type) if not callable(getattr(Type, attr)) and not attr.startswith("__")]
+        for member in Type.members:
             type = getattr(Type, member)
             reverse[type.hex] = type
 
         Type.reverse = reverse
+
+    @staticmethod
+    def rnd():
+        return getattr(Type, random.choice(Type.members))
 
 Type.NORMAL = Type("Normal", 0x00)
 Type.FIGHTING = Type("Fighting", 0x01)

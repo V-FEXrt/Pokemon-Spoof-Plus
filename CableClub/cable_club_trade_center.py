@@ -4,6 +4,7 @@ tradeCenterState = TradeCenterState.INIT
 counter = 0
 
 DATA_BLOCK = []
+resp_blok = []
 
 def set_data_block(bytes):
     global DATA_BLOCK
@@ -54,6 +55,7 @@ def waiting_to_send_data_process(byte):
         counter = 0
         tradeCenterState = TradeCenterState.SENDING_DATA
         counter += 1
+        resp_blok.append(byte)
         return DATA_BLOCK[counter - 1]
 
     return byte
@@ -67,13 +69,18 @@ def sending_data_process(byte):
     global counter, tradeCenterState
 
     send = DATA_BLOCK[counter]
+    resp_blok.append(byte)
     counter += 1
     if (counter == len(DATA_BLOCK)):
         tradeCenterState = TradeCenterState.DATA_SENT
+        print "-------Begin Resp Block-------"
+        print resp_blok
+        print "--------End Resp Block--------"
     return send
 
 
 def data_sent_process(byte):
+    print byte
     return byte
 
 

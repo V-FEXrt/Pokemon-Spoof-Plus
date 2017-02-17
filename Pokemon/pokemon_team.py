@@ -1,6 +1,9 @@
+import random
+
 from Utilities.text_converter import *
 
 from pokemon import Pokemon
+from pokemon_species import Species
 
 def pokemon_type_block_encode(pokemon):
     length = len(pokemon)
@@ -20,8 +23,13 @@ def pokemon_type_block_encode(pokemon):
 
     return  out
 
-def pokemon_type_block_decode(pokemon):
-    pass # This can be ignored, and built from the pokemon list.. I think. It might need to be used to determine the overall length of the data
+def pokemon_type_block_decode(bytes):
+    pokemon_count = bytes[0]
+    species = []
+    for i in range(pokemon_count):
+        species.append(Species.fromBytes(bytes[i+1]))
+
+    return  [pokemon_count, species]
 
 def trainer_name_encode(name):
     if len(name) > 7:
@@ -45,9 +53,12 @@ class PokemonTeam():
         if len(name) > 7:
             raise ValueError("Name cannot be longer than 7 characters")
 
+        if len(pokemon) > 6:
+            raise ValueError("Cannot have more than 6 Pokemon")
+
     def __str__(self):
         out = ""
-        for p in [self.pokemon]:
+        for p in self.pokemon:
             out += p.__str__() + "\n"
 
         return out
@@ -56,25 +67,29 @@ class PokemonTeam():
         dataBlock = []
 
         extend(dataBlock, trainer_name_encode(self.name))
-        extend(dataBlock, pokemon_type_block_encode([self.pokemon, self.pokemon, self.pokemon, self.pokemon, self.pokemon, self.pokemon]))
-        extend(dataBlock, self.pokemon.toBytes())
-        extend(dataBlock, self.pokemon.toBytes())
-        extend(dataBlock, self.pokemon.toBytes())
-        extend(dataBlock, self.pokemon.toBytes())
-        extend(dataBlock, self.pokemon.toBytes())
-        extend(dataBlock, self.pokemon.toBytes())
-        extend(dataBlock, trainer_name_encode(self.pokemon.originalTrainerName)) # TODO: Must go back to set these on pokemon
-        extend(dataBlock, trainer_name_encode(self.pokemon.originalTrainerName))
-        extend(dataBlock, trainer_name_encode(self.pokemon.originalTrainerName))
-        extend(dataBlock, trainer_name_encode(self.pokemon.originalTrainerName))
-        extend(dataBlock, trainer_name_encode(self.pokemon.originalTrainerName))
-        extend(dataBlock, trainer_name_encode(self.pokemon.originalTrainerName))
-        extend(dataBlock, self.pokemon.terminatedNickname())
-        extend(dataBlock, self.pokemon.terminatedNickname())
-        extend(dataBlock, self.pokemon.terminatedNickname())
-        extend(dataBlock, self.pokemon.terminatedNickname())
-        extend(dataBlock, self.pokemon.terminatedNickname())
-        extend(dataBlock, self.pokemon.terminatedNickname())
+        extend(dataBlock, pokemon_type_block_encode(self.pokemon))
+
+        length = len(self.pokemon)
+        for i in range(6):
+            if (i < length):
+                extend(dataBlock, self.pokemon[i].toBytes())
+            else:
+                # Fill with 0 bytes
+                extend(dataBlock, padTo([], 0x00, 44))
+
+        for i in range(6):
+            if (i < length):
+                extend(dataBlock, trainer_name_encode(self.pokemon[i].originalTrainerName))
+            else:
+                # Fill with 0 bytes
+                extend(dataBlock, padTo([], 0x00, 11))
+
+        for i in range(6):
+            if (i < length):
+                extend(dataBlock, self.pokemon[i].terminatedNickname())
+            else:
+                # Fill with 0 bytes
+                extend(dataBlock, padTo([], 0x00, 11))
 
         return dataBlock
 
@@ -82,27 +97,32 @@ class PokemonTeam():
     def fromBytes(bytes):
         trainer_name = trainer_name_decode(bytes[0:11])
 
-        # Eat Type Block bytes[11:19
+        meta = pokemon_type_block_decode(bytes[11:19])
 
-        pokemon1 = Pokemon.fromBytes(bytes[19:63])
-        pokemon2 = Pokemon.fromBytes(bytes[63:107])
-        pokemon3 = Pokemon.fromBytes(bytes[107:151])
-        pokemon4 = Pokemon.fromBytes(bytes[151:195])
-        pokemon5 = Pokemon.fromBytes(bytes[195:239])
-        pokemon6 = Pokemon.fromBytes(bytes[239:283])
+        pokemon = []
 
-        pokemon1.originalTrainerName = trainer_name_decode(bytes[283:294])
-        pokemon2.originalTrainerName = trainer_name_decode(bytes[294:305])
-        pokemon3.originalTrainerName = trainer_name_decode(bytes[305:316])
-        pokemon4.originalTrainerName = trainer_name_decode(bytes[316:327])
-        pokemon5.originalTrainerName = trainer_name_decode(bytes[327:338])
-        pokemon6.originalTrainerName = trainer_name_decode(bytes[338:349])
+        byte_idx = 19
+        for i in range(meta[0]):
+            pokemon.append(Pokemon.fromBytes(bytes[byte_idx:byte_idx+44]))
+            byte_idx += 44
 
-        pokemon1.setNickname(bytes[349:360])
-        pokemon2.setNickname(bytes[360:371])
-        pokemon3.setNickname(bytes[371:382])
-        pokemon4.setNickname(bytes[382:393])
-        pokemon5.setNickname(bytes[393:404])
-        pokemon6.setNickname(bytes[404:415])
+        byte_idx = 283
+        for i in range(meta[0]):
+            pokemon[i].originalTrainerName = trainer_name_decode(bytes[byte_idx:byte_idx+11])
+            byte_idx += 11
 
-        return PokemonTeam(trainer_name, pokemon1)
+        byte_idx = 349
+        for i in range(meta[0]):
+            pokemon[i].setNickname(bytes[byte_idx:byte_idx+11])
+            byte_idx += 11
+
+        return PokemonTeam(trainer_name, pokemon)
+
+    @staticmethod
+    def rnd():
+        pkmn_cnt = random.randint(1, 6)
+        pkmn = []
+        for i in range(pkmn_cnt):
+            pkmn.append(Pokemon.rnd())
+
+        return PokemonTeam("HACKER", pkmn)

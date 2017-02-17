@@ -1,3 +1,5 @@
+import random
+
 class Species():
     def __init__(self, name, hex):
         self.name = name
@@ -13,11 +15,16 @@ class Species():
     @staticmethod
     def buildReverse():
         reverse = {}
-        for member in [attr for attr in dir(Species) if not callable(getattr(Species, attr)) and not attr.startswith("__")]:
+        Species.members = [attr for attr in dir(Species) if not callable(getattr(Species, attr)) and not attr.startswith("__")]
+        for member in Species.members:
             species = getattr(Species, member)
             reverse[species.hex] = species
 
         Species.reverse = reverse
+
+    @staticmethod
+    def rnd():
+        return getattr(Species, random.choice(Species.members))
 
 Species.RHYDON = Species("Rhydon", 0x01)
 Species.KANGASKHAN = Species("Kangaskhan", 0x02)

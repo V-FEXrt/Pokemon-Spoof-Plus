@@ -1,3 +1,5 @@
+import random
+
 class Move():
     def __init__(self, name, hex):
         self.name = name
@@ -13,11 +15,16 @@ class Move():
     @staticmethod
     def buildReverse():
         reverse = {}
-        for member in [attr for attr in dir(Move) if not callable(getattr(Move, attr)) and not attr.startswith("__")]:
+        Move.members = [attr for attr in dir(Move) if not callable(getattr(Move, attr)) and not attr.startswith("__")]
+        for member in Move.members:
             move = getattr(Move, member)
             reverse[move.hex] = move
 
         Move.reverse = reverse
+
+    @staticmethod
+    def rnd():
+        return getattr(Move, random.choice(Move.members))
 
 Move.NOTHING = Move("Nothing", 0x00)
 Move.POUND = Move("Pound", 0x01)

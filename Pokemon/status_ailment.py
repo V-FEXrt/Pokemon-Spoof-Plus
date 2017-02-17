@@ -1,3 +1,5 @@
+import random
+
 class StatusAilment():
     def __init__(self, name, hex):
         self.name = name
@@ -13,11 +15,17 @@ class StatusAilment():
     @staticmethod
     def buildReverse():
         reverse = {}
-        for member in [attr for attr in dir(StatusAilment) if not callable(getattr(StatusAilment, attr)) and not attr.startswith("__")]:
+        StatusAilment.members = [attr for attr in dir(StatusAilment) if not callable(getattr(StatusAilment, attr)) and not attr.startswith("__")]
+        for member in StatusAilment.members:
             statusAilment = getattr(StatusAilment, member)
             reverse[statusAilment.hex] = statusAilment
 
         StatusAilment.reverse = reverse
+
+    @staticmethod
+    def rnd():
+        return getattr(StatusAilment, random.choice(StatusAilment.members))
+
 
 StatusAilment.NONE = StatusAilment("None", 0x00)
 StatusAilment.ASLEEP = StatusAilment("Asleep", 0x04)

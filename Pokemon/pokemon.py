@@ -136,6 +136,10 @@ class Pokemon():
         return bytes
 
     @staticmethod
+    def rnd():
+        return Pokemon(Species.rnd(), 300, 74, StatusAilment.rnd(), Type.rnd(), Type.rnd(), Item.rnd(), Move.rnd(), Move.rnd(), Move.rnd(), Move.rnd(), 1234, 200000, 65535, 65535, 65535, 65535, 65535, 65535, 3 << 6, 3 << 6, 3 << 6, 3 << 6, 74, 300, 150, 151, 152, 153, "Alchemy", "BOBBO")
+
+    @staticmethod
     def fromBytes(bytes):
         species = Species.fromBytes(bytes[0:1][0])
         currentHp = IntegerField.fromBytes(2, bytes[1:3])

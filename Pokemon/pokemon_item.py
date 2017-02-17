@@ -1,3 +1,5 @@
+import random
+
 class Item():
     def __init__(self, name, hex):
         self.name = name
@@ -13,11 +15,16 @@ class Item():
     @staticmethod
     def buildReverse():
         reverse = {}
-        for member in [attr for attr in dir(Item) if not callable(getattr(Item, attr)) and not attr.startswith("__")]:
+        Item.members = [attr for attr in dir(Item) if not callable(getattr(Item, attr)) and not attr.startswith("__")]
+        for member in Item.members:
             item = getattr(Item, member)
             reverse[item.hex] = item
 
         Item.reverse = reverse
+
+    @staticmethod
+    def rnd():
+        return getattr(Item, random.choice(Item.members))
 
 
 Item.MASTER_BALL = Item("Master Ball", 0x01)
