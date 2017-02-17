@@ -3,6 +3,22 @@ class Move():
         self.name = name
         self.hex = hex
 
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def fromHex(hex):
+        return Move.reverse[hex]
+
+    @staticmethod
+    def buildReverse():
+        reverse = {}
+        for member in [attr for attr in dir(Move) if not callable(getattr(Move, attr)) and not attr.startswith("__")]:
+            move = getattr(Move, member)
+            reverse[move.hex] = move
+
+        Move.reverse = reverse
+
 Move.NOTHING = Move("Nothing", 0x00)
 Move.POUND = Move("Pound", 0x01)
 Move.KARATE_CHOP = Move("Karate Chop", 0x02)
@@ -162,3 +178,5 @@ Move.SUPER_FANG = Move("Super Fang", 0xA2)
 Move.SLASH = Move("Slash", 0xA3)
 Move.SUBSTITUTE = Move("Substitute", 0xA4)
 Move.STRUGGLE = Move("Struggle", 0xA5)
+
+Move.buildReverse()

@@ -41,7 +41,12 @@ pokemon = Pokemon(
     "Alchemy",
     "BOBBO")
 
-team = PokemonTeam(pokemon)
 
+team = PokemonTeam("HACKER", pokemon)
 
-cable_club_begin(team.toHex())
+print PokemonTeam.fromHex(team.toHex())
+#cable_club_begin(team.toHex())
+
+# TODO: Pokemon Team should accept an array of pokemon
+# TODO: all toHex/fromHex should be toBytes/fromBytes
+# TODO: come up with better method for reading bytes from data stream

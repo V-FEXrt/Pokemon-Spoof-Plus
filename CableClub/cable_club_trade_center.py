@@ -5,7 +5,6 @@ counter = 0
 
 DATA_BLOCK = []
 
-
 def set_data_block(bytes):
     global DATA_BLOCK
     DATA_BLOCK = bytes

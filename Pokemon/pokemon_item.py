@@ -3,6 +3,23 @@ class Item():
         self.name = name
         self.hex = hex
 
+    def __str__(self):
+        return  self.name
+
+    @staticmethod
+    def fromHex(hex):
+        return Item.reverse[hex]
+
+    @staticmethod
+    def buildReverse():
+        reverse = {}
+        for member in [attr for attr in dir(Item) if not callable(getattr(Item, attr)) and not attr.startswith("__")]:
+            item = getattr(Item, member)
+            reverse[item.hex] = item
+
+        Item.reverse = reverse
+
+
 Item.MASTER_BALL = Item("Master Ball", 0x01)
 Item.ULTRA_BALL = Item("Ultra Ball", 0x02)
 Item.BRIGHT_POWDER = Item("BrightPowder", 0x03)
@@ -230,3 +247,6 @@ Item.HM09 = Item("HM09", 0xFB)
 Item.HM10 = Item("HM10", 0xFC)
 Item.HM11 = Item("HM11", 0xFD)
 Item.HM12 = Item("HM12", 0xFE)
+
+Item.buildReverse()
+

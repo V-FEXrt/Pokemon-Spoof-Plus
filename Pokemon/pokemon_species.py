@@ -3,6 +3,22 @@ class Species():
         self.name = name
         self.hex = hex
 
+    def __str__(self):
+        return self.name
+
+    @staticmethod
+    def fromHex(hex):
+        return Species.reverse[hex]
+
+    @staticmethod
+    def buildReverse():
+        reverse = {}
+        for member in [attr for attr in dir(Species) if not callable(getattr(Species, attr)) and not attr.startswith("__")]:
+            species = getattr(Species, member)
+            reverse[species.hex] = species
+
+        Species.reverse = reverse
+
 Species.RHYDON = Species("Rhydon", 0x01)
 Species.KANGASKHAN = Species("Kangaskhan", 0x02)
 Species.NIDORAN_M = Species("Nidoran M", 0x03)
@@ -154,3 +170,5 @@ Species.VILEPLUME = Species("Vileplume", 0xBB)
 Species.BELLSPROUT = Species("Bellsprout", 0xBC)
 Species.WEEPINBELL = Species("Weepinbell", 0xBD)
 Species.VICTREEBEL = Species("Victreebel", 0xBE)
+
+Species.buildReverse()

@@ -1,15 +1,40 @@
 class IntegerField():
-    def __init__(self, value, bytes):
+    def __init__(self, value, byte_count):
             self.value = value
-            self.bytes = bytes
+            self.bytes = byte_count
+
+    def __str__(self):
+        return str(self.value)
 
     def toHex(self):
-        low = hex(self.value & 0xFF)
-        mid = hex((self.value >> 8) & 0xFF)
-        high = hex((self.value >> 16) & 0xFF)
+        low = self.value & 0xFF
+        mid = (self.value >> 8) & 0xFF
+        high = (self.value >> 16) & 0xFF
 
         if(self.bytes == 3):
             return [high, mid, low]
         if(self.bytes == 2):
             return [mid, low]
         return [low]
+
+    @staticmethod
+    def fromHex(byte_count, bytes):
+        val = 0
+        if(byte_count == 3):
+            val = (bytes[0] << 16) | (bytes[1] << 8)  | (bytes[2])
+        elif(byte_count == 2):
+            val = (bytes[0] << 8)  | (bytes[1])
+        else:
+            val = bytes[0]
+
+        return IntegerField(val, bytes)
+
+
+# def hex_to_int(hex_str):
+#    if(type(hex_str) is str):
+#        return int(hex_str, 16)
+#    return hex_str
+
+#i = IntegerField(0xdedbef, 3)
+#print i
+#print IntegerField.fromHex(3, map(hex_to_int, i.toHex()))

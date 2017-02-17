@@ -3,6 +3,22 @@ class Type():
         self.name = name
         self.hex = hex
 
+    def __str__(self):
+        return  self.name
+
+    @staticmethod
+    def fromHex(hex):
+        return Type.reverse[hex]
+
+    @staticmethod
+    def buildReverse():
+        reverse = {}
+        for member in [attr for attr in dir(Type) if not callable(getattr(Type, attr)) and not attr.startswith("__")]:
+            type = getattr(Type, member)
+            reverse[type.hex] = type
+
+        Type.reverse = reverse
+
 Type.NORMAL = Type("Normal", 0x00)
 Type.FIGHTING = Type("Fighting", 0x01)
 Type.FLYING = Type("Flying", 0x02)
@@ -18,3 +34,5 @@ Type.ELECTRIC = Type("Electric", 0x17)
 Type.PSYCHIC = Type("Psychic", 0x18)
 Type.ICE = Type("Ice", 0x19)
 Type.DRAGON = Type("Dragon", 0x1A)
+
+Type.buildReverse()
