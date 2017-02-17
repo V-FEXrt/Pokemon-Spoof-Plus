@@ -7,7 +7,7 @@ class Species():
         return self.name
 
     @staticmethod
-    def fromHex(hex):
+    def fromBytes(hex):
         return Species.reverse[hex]
 
     @staticmethod

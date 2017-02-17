@@ -7,7 +7,7 @@ class Type():
         return  self.name
 
     @staticmethod
-    def fromHex(hex):
+    def fromBytes(hex):
         return Type.reverse[hex]
 
     @staticmethod

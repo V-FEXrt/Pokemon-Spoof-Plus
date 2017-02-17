@@ -7,7 +7,7 @@ class Move():
         return self.name
 
     @staticmethod
-    def fromHex(hex):
+    def fromBytes(hex):
         return Move.reverse[hex]
 
     @staticmethod

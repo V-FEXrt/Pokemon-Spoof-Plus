@@ -44,8 +44,8 @@ pokemon = Pokemon(
 
 team = PokemonTeam("HACKER", pokemon)
 
-print PokemonTeam.fromHex(team.toHex())
-#cable_club_begin(team.toHex())
+print PokemonTeam.fromBytes(team.toBytes())
+#cable_club_begin(team.fromBytes())
 
 # TODO: Pokemon Team should accept an array of pokemon
 # TODO: all toHex/fromHex should be toBytes/fromBytes

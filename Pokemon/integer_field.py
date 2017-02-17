@@ -6,7 +6,7 @@ class IntegerField():
     def __str__(self):
         return str(self.value)
 
-    def toHex(self):
+    def toBytes(self):
         low = self.value & 0xFF
         mid = (self.value >> 8) & 0xFF
         high = (self.value >> 16) & 0xFF
@@ -18,7 +18,7 @@ class IntegerField():
         return [low]
 
     @staticmethod
-    def fromHex(byte_count, bytes):
+    def fromBytes(byte_count, bytes):
         val = 0
         if(byte_count == 3):
             val = (bytes[0] << 16) | (bytes[1] << 8)  | (bytes[2])
@@ -30,11 +30,6 @@ class IntegerField():
         return IntegerField(val, bytes)
 
 
-# def hex_to_int(hex_str):
-#    if(type(hex_str) is str):
-#        return int(hex_str, 16)
-#    return hex_str
-
 #i = IntegerField(0xdedbef, 3)
 #print i
-#print IntegerField.fromHex(3, map(hex_to_int, i.toHex()))
+#print IntegerField.fromHex(3, i.toBytes())

@@ -7,7 +7,7 @@ class StatusAilment():
         return  self.name
 
     @staticmethod
-    def fromHex(hex):
+    def fromBytes(hex):
         return StatusAilment.reverse[hex]
 
     @staticmethod

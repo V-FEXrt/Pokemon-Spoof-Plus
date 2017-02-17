@@ -52,7 +52,7 @@ class PokemonTeam():
 
         return out
 
-    def toHex(self):
+    def toBytes(self):
         dataBlock = []
 
         extend(dataBlock, trainer_name_encode(self.name))
@@ -79,17 +79,17 @@ class PokemonTeam():
         return dataBlock
 
     @staticmethod
-    def fromHex(bytes):
+    def fromBytes(bytes):
         trainer_name = trainer_name_decode(bytes[0:11])
 
         # Eat Type Block bytes[11:19
 
-        pokemon1 = Pokemon.fromHex(bytes[19:63])
-        pokemon2 = Pokemon.fromHex(bytes[63:107])
-        pokemon3 = Pokemon.fromHex(bytes[107:151])
-        pokemon4 = Pokemon.fromHex(bytes[151:195])
-        pokemon5 = Pokemon.fromHex(bytes[195:239])
-        pokemon6 = Pokemon.fromHex(bytes[239:283])
+        pokemon1 = Pokemon.fromBytes(bytes[19:63])
+        pokemon2 = Pokemon.fromBytes(bytes[63:107])
+        pokemon3 = Pokemon.fromBytes(bytes[107:151])
+        pokemon4 = Pokemon.fromBytes(bytes[151:195])
+        pokemon5 = Pokemon.fromBytes(bytes[195:239])
+        pokemon6 = Pokemon.fromBytes(bytes[239:283])
 
         pokemon1.originalTrainerName = trainer_name_decode(bytes[283:294])
         pokemon2.originalTrainerName = trainer_name_decode(bytes[294:305])

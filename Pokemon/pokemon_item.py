@@ -7,7 +7,7 @@ class Item():
         return  self.name
 
     @staticmethod
-    def fromHex(hex):
+    def fromBytes(hex):
         return Item.reverse[hex]
 
     @staticmethod
