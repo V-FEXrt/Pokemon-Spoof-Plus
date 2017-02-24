@@ -1,20 +1,24 @@
 from cable_club_constants import TradeCenterState, Com
+from TradeCenter.trade_center import TradeCenter
+
 
 tradeCenterState = TradeCenterState.INIT
 counter = 0
 eat_byte = False
 ate_byte = 0x0
+is_init = False
 
 DATA_BLOCK = []
 RESP_BLOCK = []
 
-def set_data_block(bytes):
-    global DATA_BLOCK
-    DATA_BLOCK = bytes
-
+choice_byte = 0
 
 def init_process(byte):
-    global counter, tradeCenterState
+    global counter, tradeCenterState, DATA_BLOCK, is_init
+
+    if not is_init:
+        is_init = True
+        DATA_BLOCK = TradeCenter.getAITeam().toBytes()
 
     if (byte == Com.BLANK):
         if (counter == 5):
@@ -57,7 +61,7 @@ def waiting_to_send_data_process(byte):
         counter = 0
         tradeCenterState = TradeCenterState.SENDING_DATA
         counter += 1
-        resp_blok.append(byte)
+        RESP_BLOCK.append(byte)
         return DATA_BLOCK[counter - 1]
 
     return byte
@@ -71,26 +75,29 @@ def sending_data_process(byte):
     global counter, tradeCenterState
 
     send = DATA_BLOCK[counter]
-    resp_blok.append(byte)
+    RESP_BLOCK.append(byte)
     counter += 1
     if (counter == len(DATA_BLOCK)):
         tradeCenterState = TradeCenterState.CHOOSING_TRADE
-        print "-------Begin Resp Block-------"
-        print resp_blok
-        print "--------End Resp Block--------"
+        TradeCenter.recieveEnemyTeam(RESP_BLOCK)
+
     return send
 
 
 def choosing_trade_process(byte):
-    global counter, tradeCenterState, eat_byte
+    global counter, tradeCenterState, eat_byte, choice_byte
 
+    ## Eat 'random' 96 byte
     if byte == 96 and counter > 0:
         counter = 0
         return byte
 
     if byte >= 96 and byte <= 101:
+        if not eat_byte:
+            choice_byte = TradeCenter.offerIndex(byte)
+
         eat_byte = True
-        return  byte
+        return  choice_byte
 
     if eat_byte:
         tradeCenterState = TradeCenterState.CONFIRMING_TRADE
@@ -101,7 +108,7 @@ def choosing_trade_process(byte):
 
 
 def confirming_trade_process(byte):
-    global tradeCenterState, eat_byte, ate_byte, counter, resp_blok
+    global tradeCenterState, eat_byte, ate_byte, counter, RESP_BLOCK, is_init
     if byte == 97 or byte == 98:
         eat_byte = True
         ate_byte = byte
@@ -114,8 +121,10 @@ def confirming_trade_process(byte):
             # Cancelled by partner
         if ate_byte == 98:
             tradeCenterState = TradeCenterState.INIT
+
             counter = 0
-            resp_blok = []
+            RESP_BLOCK = []
+            is_init = False
             # Confirmed by partner
 
     return  byte

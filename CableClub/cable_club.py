@@ -1,7 +1,8 @@
 import bgb_link
 from cable_club_colosseum import colosseum_process_byte
 from cable_club_constants import ConnectionState, Com
-from cable_club_trade_center import trade_center_process_byte, set_data_block
+from cable_club_trade_center import trade_center_process_byte
+
 
 connectionState = ConnectionState.NOT_CONNECTED
 
@@ -46,8 +47,6 @@ def cable_club_process_byte(byte):
     return functionSwitch[connectionState.value](byte)
 
 
-def cable_club_begin(data, sim=True, address="192.168.64.2"):
-    set_data_block(data)
-
+def cable_club_begin(sim=True, address="192.168.64.2"):
     if sim:
         bgb_link.connect(8765, cable_club_process_byte, address=address)
