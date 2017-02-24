@@ -27,6 +27,7 @@ class Item():
         return getattr(Item, random.choice(Item.members))
 
 
+Item.NOTHING = Item('Nothing', 0x00)
 Item.MASTER_BALL = Item("Master Ball", 0x01)
 Item.ULTRA_BALL = Item("Ultra Ball", 0x02)
 Item.BRIGHT_POWDER = Item("BrightPowder", 0x03)
@@ -254,6 +255,8 @@ Item.HM09 = Item("HM09", 0xFB)
 Item.HM10 = Item("HM10", 0xFC)
 Item.HM11 = Item("HM11", 0xFD)
 Item.HM12 = Item("HM12", 0xFE)
+Item.UNKNOWN = Item("Unknown", 0xFF)
+
 
 Item.buildReverse()
 

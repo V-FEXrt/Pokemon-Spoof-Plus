@@ -57,7 +57,7 @@ class PokemonTeam():
             raise ValueError("Cannot have more than 6 Pokemon")
 
     def __str__(self):
-        out = ""
+        out = "Trainer: " + self.name + "\n"
         for p in self.pokemon:
             out += p.__str__() + "\n"
 

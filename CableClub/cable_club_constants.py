@@ -16,7 +16,8 @@ class TradeCenterState(Enum):
     WAITING_TO_SEND_DATA = 4
     START_SENDING_DATA = 5
     SENDING_DATA = 6
-    DATA_SENT = 7
+    CHOOSING_TRADE = 7
+    CONFIRMING_TRADE = 8
 
 
 class Com():
