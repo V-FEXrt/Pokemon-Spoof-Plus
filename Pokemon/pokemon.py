@@ -101,10 +101,8 @@ class Pokemon():
 
     def toBytes(self):
         bytes = []
-
         bytes.append(self.species.hex)
         self.extend(bytes, self.currentHp.toBytes())
-
         self.extend(bytes, self.levelPc.toBytes())
         bytes.append(self.statusAilment.hex)
         bytes.append(self.type1.hex)
@@ -132,7 +130,6 @@ class Pokemon():
         self.extend(bytes, self.defense.toBytes())
         self.extend(bytes, self.speed.toBytes())
         self.extend(bytes, self.special.toBytes())
-
         return bytes
 
     @staticmethod
@@ -142,8 +139,8 @@ class Pokemon():
     @staticmethod
     def fromBytes(bytes):
         species = Species.fromBytes(bytes[0:1][0])
-        currentHp = IntegerField.fromBytes(2, bytes[1:3])
-        levelPc = IntegerField.fromBytes(1, bytes[3:4])
+        currentHp = IntegerField.fromBytes(2, bytes[1:3]).value
+        levelPc = IntegerField.fromBytes(1, bytes[3:4]).value
         statusAilment = StatusAilment.fromBytes(bytes[4:5][0])
         type1 = Type.fromBytes(bytes[5:6][0])
         type2 = Type.fromBytes(bytes[6:7][0])
@@ -152,24 +149,24 @@ class Pokemon():
         move2 = Move.fromBytes(bytes[9:10][0])
         move3 = Move.fromBytes(bytes[10:11][0])
         move4 = Move.fromBytes(bytes[11:12][0])
-        originalTrainerId = IntegerField.fromBytes(2, bytes[12:14])
-        exp = IntegerField.fromBytes(3, bytes[14:17])
-        hpEv = IntegerField.fromBytes(2, bytes[17:19])
-        attackEv = IntegerField.fromBytes(2, bytes[19:21])
-        defenseEv = IntegerField.fromBytes(2, bytes[21:23])
-        speedEv = IntegerField.fromBytes(2, bytes[23:25])
-        specialEv = IntegerField.fromBytes(2, bytes[25:27])
-        iv = IntegerField.fromBytes(2, bytes[27:29])
-        move1pp = IntegerField.fromBytes(1, bytes[29:30])
-        move2pp = IntegerField.fromBytes(1, bytes[30:31])
-        move3pp = IntegerField.fromBytes(1, bytes[31:32])
-        move4pp = IntegerField.fromBytes(1, bytes[32:33])
-        level = IntegerField.fromBytes(1, bytes[33:34])
-        maxHp = IntegerField.fromBytes(2, bytes[34:36])
-        attack = IntegerField.fromBytes(2, bytes[36:38])
-        defense = IntegerField.fromBytes(2, bytes[38:40])
-        speed = IntegerField.fromBytes(2, bytes[40:42])
-        special = IntegerField.fromBytes(2, bytes[42:44])
+        originalTrainerId = IntegerField.fromBytes(2, bytes[12:14]).value
+        exp = IntegerField.fromBytes(3, bytes[14:17]).value
+        hpEv = IntegerField.fromBytes(2, bytes[17:19]).value
+        attackEv = IntegerField.fromBytes(2, bytes[19:21]).value
+        defenseEv = IntegerField.fromBytes(2, bytes[21:23]).value
+        speedEv = IntegerField.fromBytes(2, bytes[23:25]).value
+        specialEv = IntegerField.fromBytes(2, bytes[25:27]).value
+        iv = IntegerField.fromBytes(2, bytes[27:29]).value
+        move1pp = IntegerField.fromBytes(1, bytes[29:30]).value
+        move2pp = IntegerField.fromBytes(1, bytes[30:31]).value
+        move3pp = IntegerField.fromBytes(1, bytes[31:32]).value
+        move4pp = IntegerField.fromBytes(1, bytes[32:33]).value
+        level = IntegerField.fromBytes(1, bytes[33:34]).value
+        maxHp = IntegerField.fromBytes(2, bytes[34:36]).value
+        attack = IntegerField.fromBytes(2, bytes[36:38]).value
+        defense = IntegerField.fromBytes(2, bytes[38:40]).value
+        speed = IntegerField.fromBytes(2, bytes[40:42]).value
+        special = IntegerField.fromBytes(2, bytes[42:44]).value
 
         return Pokemon(species, currentHp, levelPc, statusAilment, type1, type2, itemHeld, move1, move2, move3, move4, originalTrainerId, exp, hpEv, attackEv, defenseEv, speedEv, specialEv, iv, move1pp, move2pp, move3pp, move4pp, level, maxHp, attack, defense, speed, special, "Missing", "Missing")
 

@@ -63,6 +63,9 @@ class PokemonTeam():
 
         return out
 
+    def trade_pokemon(self, idx, pokemon):
+        self.pokemon[idx] = Pokemon.fromBytes(pokemon.toBytes())
+
     def toBytes(self):
         dataBlock = []
 

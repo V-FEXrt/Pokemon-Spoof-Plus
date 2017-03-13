@@ -41,10 +41,10 @@ functionSwitch = [not_connected_process, connected_process, trade_center_process
 
 
 def cable_club_process_byte(byte):
-    if (connectionState.value >= len(functionSwitch)):
+    if (connectionState >= len(functionSwitch)):
         return Com.BLANK
 
-    return functionSwitch[connectionState.value](byte)
+    return functionSwitch[connectionState](byte)
 
 
 def cable_club_begin(sim=True, address="192.168.64.2"):

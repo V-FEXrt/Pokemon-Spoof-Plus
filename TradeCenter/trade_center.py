@@ -1,14 +1,17 @@
 from Pokemon.pokemon_team import PokemonTeam
+from Pokemon.pokemon import Pokemon
 
 ai_team = PokemonTeam.rnd()
 
 # Will be overwritten
 enemy_team = PokemonTeam.rnd()
+offered_pokemon = Pokemon.rnd()
 
 class TradeCenter():
 
     @staticmethod
     def getAITeam():
+        global ai_team
         return ai_team
 
     @staticmethod
@@ -18,9 +21,14 @@ class TradeCenter():
 
     @staticmethod
     def offerIndex(offerByte):
-        #offer = enemy_team.pokemon[untranslate_idx(offerByte)]
+        global offered_pokemon
+        offered_pokemon = enemy_team.pokemon[untranslate_idx(offerByte)]
         return translate_idx(0)
 
+    @staticmethod
+    def trade_confirmed():
+        global ai_team
+        ai_team.trade_pokemon(0, offered_pokemon)
 
 def translate_idx(idx):
     if idx < 0 or idx > 5:

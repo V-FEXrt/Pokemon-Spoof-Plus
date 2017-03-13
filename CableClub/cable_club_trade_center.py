@@ -1,7 +1,6 @@
 from cable_club_constants import TradeCenterState, Com
 from TradeCenter.trade_center import TradeCenter
 
-
 tradeCenterState = TradeCenterState.INIT
 counter = 0
 eat_byte = False
@@ -93,6 +92,7 @@ def choosing_trade_process(byte):
         return byte
 
     if byte >= 96 and byte <= 101:
+        # TODO: 'seen first wait' solves this eating bytes problem better. Should use it instead
         if not eat_byte:
             choice_byte = TradeCenter.offerIndex(byte)
 
@@ -117,25 +117,26 @@ def confirming_trade_process(byte):
     if eat_byte:
         eat_byte = False
         if ate_byte == 97:
-            tradeCenterState = TradeCenterState.CHOOSING_TRADE
             # Cancelled by partner
+            tradeCenterState = TradeCenterState.CHOOSING_TRADE
         if ate_byte == 98:
+            # Confirmed by partner
             tradeCenterState = TradeCenterState.INIT
-
             counter = 0
             RESP_BLOCK = []
             is_init = False
-            # Confirmed by partner
+            TradeCenter.trade_confirmed()
+
 
     return  byte
 
 functionSwitch = [init_process, ready_to_go_process, seen_first_wait_process, sending_random_data_process,
                   waiting_to_send_data_process, start_sending_data_process, sending_data_process, choosing_trade_process, confirming_trade_process]
 
-
 def trade_center_process_byte(byte):
-    if (tradeCenterState.value >= len(functionSwitch)):
+    if (tradeCenterState >= len(functionSwitch)):
         print "Warning: no function for Trade Center State"
         return byte
 
-    return functionSwitch[tradeCenterState.value](byte)
+    return functionSwitch[tradeCenterState](byte)
+

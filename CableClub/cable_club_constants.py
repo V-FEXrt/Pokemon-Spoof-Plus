@@ -1,14 +1,11 @@
-from enum import Enum
-
-
-class ConnectionState(Enum):
+class ConnectionState():
     NOT_CONNECTED = 0
     CONNECTED = 1
     TRADE_CENTER = 2
     COLOSSEUM = 3
 
 
-class TradeCenterState(Enum):
+class TradeCenterState():
     INIT = 0
     READY_TO_GO = 1
     SEEN_FIRST_WAIT = 2
