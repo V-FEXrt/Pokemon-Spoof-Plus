@@ -6,6 +6,10 @@ class ConnectionState():
 
 
 class TradeCenterState():
+    CHOOSING_TRADE = 0
+    CONFIRMING_TRADE = 1
+
+class InitDataState():
     INIT = 0
     READY_TO_GO = 1
     SEEN_FIRST_WAIT = 2
@@ -13,8 +17,8 @@ class TradeCenterState():
     WAITING_TO_SEND_DATA = 4
     START_SENDING_DATA = 5
     SENDING_DATA = 6
-    CHOOSING_TRADE = 7
-    CONFIRMING_TRADE = 8
+    TRADE_CENTER = 7
+    COLOSSEUM = 8
 
 
 class Com():
@@ -40,3 +44,17 @@ class Com():
     TRADE_CENTER_WAIT = 0xFD
 
     WAIT = 0xF0
+
+    ATTACK_MOVE_1 = 0x60
+    ATTACK_MOVE_2 = 0x61
+    ATTACK_MOVE_3 = 0x62
+    ATTACK_MOVE_4 = 0x63
+
+    SWITCH_POKEMON_1 = 0x64
+    SWITCH_POKEMON_2 = 0x65
+    SWITCH_POKEMON_3 = 0x66
+    SWITCH_POKEMON_4 = 0x67
+    SWITCH_POKEMON_5 = 0x68
+    SWITCH_POKEMON_6 = 0x69
+
+    ATTACK_USE_STRUGGLE = 0x6E

@@ -1,7 +1,7 @@
 import bgb_link
-from cable_club_colosseum import colosseum_process_byte
+
 from cable_club_constants import ConnectionState, Com
-from cable_club_trade_center import trade_center_process_byte
+from cable_club_initial_data_transfer import init_data_transfer_byte, set_center_or_trade
 
 
 connectionState = ConnectionState.NOT_CONNECTED
@@ -26,9 +26,11 @@ def connected_process(byte):
         return Com.CONNECTED
     if (byte == Com.TRADE_CENTER_SELECTED):
         connectionState = ConnectionState.TRADE_CENTER
+        set_center_or_trade(True)
         return Com.BLANK
     if (byte == Com.COLOSSEUM_SELECTED):
         connectionState = ConnectionState.COLOSSEUM
+        set_center_or_trade(False)
         return Com.BLANK
     if (byte == Com.BREAK_LINK or byte == Com.MASTER):
         connectionState = ConnectionState.NOT_CONNECTED
@@ -37,8 +39,7 @@ def connected_process(byte):
     return byte
 
 
-functionSwitch = [not_connected_process, connected_process, trade_center_process_byte, colosseum_process_byte]
-
+functionSwitch = [not_connected_process, connected_process, init_data_transfer_byte, init_data_transfer_byte]
 
 def cable_club_process_byte(byte):
     if (connectionState >= len(functionSwitch)):
@@ -49,4 +50,4 @@ def cable_club_process_byte(byte):
 
 def cable_club_begin(sim=True, address="192.168.64.2"):
     if sim:
-        bgb_link.connect(8765, cable_club_process_byte, address=address)
+        bgb_link.connect(8765, cable_club_process_byte, address="192.168.0.15") #

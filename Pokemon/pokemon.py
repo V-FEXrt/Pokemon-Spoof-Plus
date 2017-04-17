@@ -41,6 +41,8 @@ class Pokemon():
         self.speed = IntegerField(speed, 2)
         self.special = IntegerField(special, 2)
 
+        self.moves = [self.move1, self.move2, self.move3, self.move4]
+
         self.nickname = nickname
         if(len(nickname) > 10):
             raise ValueError("Nickname cannot be longer that 10 characters")
@@ -134,7 +136,7 @@ class Pokemon():
 
     @staticmethod
     def rnd():
-        return Pokemon(Species.rnd(), 300, 74, StatusAilment.rnd(), Type.rnd(), Type.rnd(), Item.rnd(), Move.rnd(), Move.rnd(), Move.rnd(), Move.rnd(), 1234, 200000, 65535, 65535, 65535, 65535, 65535, 65535, 3 << 6, 3 << 6, 3 << 6, 3 << 6, 74, 300, 150, 151, 152, 153, "Alchemy", "BOBBO")
+        return Pokemon(Species.rnd(), 300, 74, StatusAilment.NONE, Type.rnd(), Type.rnd(), Item.rnd(), Move.rnd(), Move.rnd(), Move.rnd(), Move.rnd(), 1234, 200000, 65535, 65535, 65535, 65535, 65535, 65535, 3 << 6, 3 << 6, 3 << 6, 3 << 6, 74, 300, 150, 151, 152, 153, "Alchemy", "BOBBO")
 
     @staticmethod
     def fromBytes(bytes):
