@@ -15,12 +15,15 @@ class Type():
     @staticmethod
     def buildReverse():
         reverse = {}
+        hex_keys = []
         Type.members = [attr for attr in dir(Type) if not callable(getattr(Type, attr)) and not attr.startswith("__")]
         for member in Type.members:
             type = getattr(Type, member)
             reverse[type.hex] = type
+            hex_keys.append(type.hex)
 
         Type.reverse = reverse
+        Type.hex_keys = hex_keys
 
     @staticmethod
     def rnd():

@@ -12,7 +12,7 @@ class Pokemon():
                  originalTrainerId, exp, hpEv, attackEv, defenseEv, speedEv, specialEv, iv, move1pp, move2pp, move3pp,
                  move4pp, level, maxHp, attack, defense, speed, special, nickname, originalTrainerName):
         self.species = species
-        self.currentHp = IntegerField(currentHp, 2)
+        self.currentHp = IntegerField(maxHp, 2)
         self.levelPc = IntegerField(levelPc, 1)
         self.statusAilment = statusAilment
         self.type1 = type1
