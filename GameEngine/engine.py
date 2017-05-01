@@ -4,16 +4,20 @@ from Pokemon.pokemon_type import Type
 import random
 
 def process(ai_pokemon, ai_move, enemy_pokemon, enemy_move):
-    if(ai_pokemon.speed.value > enemy_pokemon.speed.value):
-        print ai_pokemon.species.name + " is faster"
-    else:
-        print enemy_pokemon.species.name + " is faster"
-
-
     ai_dealt_damage = calculate_damage(ai_pokemon, enemy_pokemon, ai_move)
     enemy_dealt_damage = calculate_damage(enemy_pokemon, ai_pokemon, enemy_move)
-    print "Ai: " + str(ai_dealt_damage)
-    print "Enemy " + str(enemy_dealt_damage)
+
+    if(ai_pokemon.speed.value > enemy_pokemon.speed.value):
+        print ai_pokemon.species.name + " is faster"
+        enemy_pokemon.currentHp.value -= ai_dealt_damage
+        ai_pokemon.currentHp.value -= enemy_dealt_damage
+    else:
+        print enemy_pokemon.species.name + " is faster"
+        ai_pokemon.currentHp.value -= enemy_dealt_damage
+        enemy_pokemon.currentHp.value -= ai_dealt_damage
+
+    print enemy_pokemon.species.name + " dealt " + str(enemy_dealt_damage) + " to " + ai_pokemon.species.name
+    print ai_pokemon.species.name + " dealt " + str(ai_dealt_damage) + " to " + enemy_pokemon.species.name
 
 def calculate_damage(attacker, defender, move):
     # ((2A/5+2)*B*C)/D)/50)+2)*X)*Y/10)*Z)/255

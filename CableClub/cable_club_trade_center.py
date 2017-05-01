@@ -1,4 +1,4 @@
-from Folder.team_manager import TeamManager
+from AI.team_manager import TeamManager
 from cable_club_constants import TradeCenterState, Com
 
 def reset():
@@ -51,8 +51,10 @@ def confirming_trade_process(byte):
         if ate_byte == 97:
             # Cancelled by partner
             tradeCenterState = TradeCenterState.CHOOSING_TRADE
+            print "Trade cancelled by Player"
         if ate_byte == 98:
             # Confirmed by partner
+            print "Trade confirmed by Player"
             reset_to_init()
             reset()
             TeamManager.trade_center.trade_confirmed()

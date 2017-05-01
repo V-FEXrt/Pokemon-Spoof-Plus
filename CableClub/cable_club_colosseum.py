@@ -1,4 +1,4 @@
-from Folder.team_manager import TeamManager
+from AI.team_manager import TeamManager
 from CableClub.cable_club_constants import Com
 
 out_byte = 0

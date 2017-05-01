@@ -18,14 +18,7 @@ class Colosseum():
             print self.getEnemyActivePokemon().species.name + " used " + self.getEnemyActivePokemonMovedUsed(enemy_action).name
 
 
-        index = 0
-
-        for idx in range(0, len(self.getAIActivePokemon().moves)):
-            if self.getAIActivePokemon().moves[idx].base is not MoveBase.STATUS:
-                index = idx
-
-
-        out = self.handleResponseStateChange(Com.ATTACK_MOVE_1 + index)
+        out = self.decideAction()
 
         process(self.getAIActivePokemon(), self.getAIActivePokemonMovedUsed(out), self.getEnemyActivePokemon(), self.getEnemyActivePokemonMovedUsed(enemy_action))
 
@@ -56,3 +49,39 @@ class Colosseum():
         else:
             print self.getAIActivePokemon().species.name + " used " + self.getAIActivePokemonMovedUsed(action).name
         return action
+
+    def decideAction(self):
+        action = 0
+
+        current = self.getAIActivePokemon()
+
+        if current.currentHp.value > current.maxHp.value / 2:
+            action = self.getAIDamagingMove()
+        else:
+            action = self.getSwitchablePokemon()
+
+        return self.handleResponseStateChange(action)
+
+    def getAIDamagingMove(self):
+        index = 0
+
+        for idx in range(0, len(self.getAIActivePokemon().moves)):
+            if self.getAIActivePokemon().moves[idx].base is not MoveBase.STATUS:
+                index = idx
+
+        return Com.ATTACK_MOVE_1 + index
+
+    def getSwitchablePokemon(self):
+        index = 0
+
+        for idx in range(0, len(self.ai_team.pokemon)):
+            if idx == self.ai_active_index:
+                continue
+
+            consider = self.ai_team.pokemon[idx]
+            if consider.currentHp.value > consider.maxHp.value / 2 :
+                index = idx
+                break
+
+        return Com.SWITCH_POKEMON_1 + index
+

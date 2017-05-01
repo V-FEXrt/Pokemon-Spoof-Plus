@@ -5,7 +5,7 @@ from cable_club_colosseum import colosseum_process_byte
 
 from Pokemon.pokemon_team import PokemonTeam
 
-from Folder.team_manager import TeamManager
+from AI.team_manager import TeamManager
 
 initDataState = InitDataState.INIT
 counter = 0
