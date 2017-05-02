@@ -13,7 +13,7 @@ class TradeCenter():
         self.ai_offered_idx = random.randrange(0, 6)
 
         print "Player offered " + self.offered_pokemon.species.name
-        print "Offering " + self.ai_team[self.ai_offered_idx].species.name
+        print "Offering " + self.ai_team.pokemon[self.ai_offered_idx].species.name
 
         return translate_idx(self.ai_offered_idx)
 

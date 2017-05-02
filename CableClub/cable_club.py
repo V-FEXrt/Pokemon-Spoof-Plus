@@ -50,4 +50,4 @@ def cable_club_process_byte(byte):
 
 def cable_club_begin(sim=True, address="192.168.64.2"):
     if sim:
-        bgb_link.connect(8765, cable_club_process_byte, address="192.168.0.15") #
+        bgb_link.connect(8765, cable_club_process_byte, address="192.168.0.19") #

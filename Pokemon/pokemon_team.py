@@ -123,7 +123,7 @@ class PokemonTeam():
 
     @staticmethod
     def rnd():
-        pkmn_cnt = random.randint(1, 6)
+        pkmn_cnt = random.randint(1, 3) + 3
         pkmn = []
         for i in range(pkmn_cnt):
             pkmn.append(Pokemon.rnd())
